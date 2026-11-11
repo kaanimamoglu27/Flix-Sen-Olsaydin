@@ -45,6 +45,14 @@ jobs:
         run: |
           npm ci
           npx cap add ios --packagemanager CocoaPods
+      - name: Install FLIX Director name and icon
+        run: |
+          python3 -m venv "$RUNNER_TEMP/director-icon-env"
+          "$RUNNER_TEMP/director-icon-env/bin/python" -m pip install --quiet pillow
+          "$RUNNER_TEMP/director-icon-env/bin/python" tools/generate_icon.py
+          PLIST=ios/App/App/Info.plist
+          /usr/libexec/PlistBuddy -c 'Set :CFBundleDisplayName Flix Director' "$PLIST" || /usr/libexec/PlistBuddy -c 'Add :CFBundleDisplayName string Flix Director' "$PLIST"
+          /usr/libexec/PlistBuddy -c 'Set :CFBundleName Flix Director' "$PLIST" || /usr/libexec/PlistBuddy -c 'Add :CFBundleName string Flix Director' "$PLIST"
       - name: Import existing Apple Distribution identity and profile
         env:
           CERT: ${{ secrets.IOS_DIST_CERT_PEM }}
