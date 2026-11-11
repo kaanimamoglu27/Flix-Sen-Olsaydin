@@ -45,11 +45,12 @@ jobs:
         run: |
           npm ci
           npx cap add ios --packagemanager CocoaPods
-      - name: Configure Flix Director name and football manager icon
+      - name: Configure Flix Director name and official v30 icon
         run: |
-          python3 -m venv "$RUNNER_TEMP/director-icon-env"
-          "$RUNNER_TEMP/director-icon-env/bin/python" -m pip install --quiet pillow
-          "$RUNNER_TEMP/director-icon-env/bin/python" tools/generate_icon.py
+          ICON_DIR=ios/App/App/Assets.xcassets/AppIcon.appiconset
+          mkdir -p "$ICON_DIR"
+          cp store/icon-1024.png "$ICON_DIR/AppIcon-512@2x.png"
+          printf '%s\n' '{"images":[{"filename":"AppIcon-512@2x.png","idiom":"universal","platform":"ios","size":"1024x1024"}],"info":{"author":"xcode","version":1}}' > "$ICON_DIR/Contents.json"
           PLIST=ios/App/App/Info.plist
           /usr/libexec/PlistBuddy -c 'Set :CFBundleDisplayName Flix Director' "$PLIST" || /usr/libexec/PlistBuddy -c 'Add :CFBundleDisplayName string Flix Director' "$PLIST"
           /usr/libexec/PlistBuddy -c 'Set :CFBundleName Flix Director' "$PLIST" || /usr/libexec/PlistBuddy -c 'Add :CFBundleName string Flix Director' "$PLIST"
