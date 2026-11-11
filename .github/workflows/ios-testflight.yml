@@ -56,7 +56,7 @@ jobs:
           mkdir -p "$RUNNER_TEMP/signing" "$HOME/Library/MobileDevice/Provisioning Profiles"
           printf '%s\n' "$CERT" > "$RUNNER_TEMP/signing/distribution.pem"
           printf '%s\n' "$KEY" > "$RUNNER_TEMP/signing/distribution.key"
-          printf '%s' "$PROFILE" | base64 --decode > "$RUNNER_TEMP/signing/director.mobileprovision"
+          printf '%s' "$PROFILE" | base64 -D > "$RUNNER_TEMP/signing/director.mobileprovision"
           security cms -D -i "$RUNNER_TEMP/signing/director.mobileprovision" > "$RUNNER_TEMP/signing/profile.plist"
           /usr/libexec/PlistBuddy -c 'Print :UUID' "$RUNNER_TEMP/signing/profile.plist" > "$RUNNER_TEMP/signing/uuid"
           UUID=$(cat "$RUNNER_TEMP/signing/uuid")
