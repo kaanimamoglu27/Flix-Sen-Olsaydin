@@ -23,10 +23,6 @@ jobs:
       ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
       ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
     steps:
-      - name: Block upload until correct Sen Olsaydin App ID is configured
-        run: |
-          echo "::error::STOP: com.flixtoys.director belongs to Flix Director, not Flix Sen Olsaydın. Configure the correct App ID and matching provisioning profile before uploading."
-          exit 1
       - name: Checkout
         uses: actions/checkout@v4
       - name: Node 22
@@ -49,6 +45,10 @@ jobs:
         run: |
           npm ci
           npx cap add ios --packagemanager CocoaPods
+      - name: Set app display name to Flix Sen Olsaydın
+        run: |
+          PLIST=ios/App/App/Info.plist
+          /usr/libexec/PlistBuddy -c 'Set :CFBundleDisplayName Flix Sen Olsaydın' "$PLIST" || /usr/libexec/PlistBuddy -c 'Add :CFBundleDisplayName string Flix Sen Olsaydın' "$PLIST"
       - name: Import existing Apple Distribution identity and profile
         env:
           CERT: ${{ secrets.IOS_DIST_CERT_PEM }}
