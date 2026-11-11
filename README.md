@@ -20,7 +20,6 @@ Oyun ilk açılışta bu adımları kısa bir ekranla anlatır, ana ekrandaki **
 ## Klasörler
 - `index.html`: oyun (tek dosya, her şey içinde)
 - `eski/`: önceki sürümler
-- `cember/`: bu reponun eski oyunu Flix Çember (https://kaanimamoglu27.github.io/Flix-Sen-Olsaydin/cember/)
 - iOS uygulaması ve canlı veri flix-kick-up reposunda (`direktor/app/`, `direktor/live.json`).
 
 ## Modlar
