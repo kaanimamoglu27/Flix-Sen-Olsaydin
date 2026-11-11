@@ -1,0 +1,30 @@
+name: iOS Build Check (Direktor)
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'app/**'
+      - '.github/workflows/ios-build-check.yml'
+
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 40
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+      - name: Install packages
+        run: npm ci
+      - name: Create native iOS project
+        run: npx cap add ios --packagemanager CocoaPods
+      - name: Compile without signing
+        run: |
+          set -o pipefail
+          xcodebuild -workspace ios/App/App.xcworkspace -scheme App -configuration Release -destination 'generic/platform=iOS' CODE_SIGNING_ALLOWED=NO build | tail -n 70
