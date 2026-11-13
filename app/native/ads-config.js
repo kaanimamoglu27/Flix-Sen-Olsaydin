@@ -6,9 +6,9 @@
 window.FLIX_ADS_CONFIG = {
   forceTestAds: false,
   ids: {
-    IOS_APP_ID: '',        // ca-app-pub-XXXXXXXXXXXXXXXX~XXXXXXXXXX
-    IOS_REWARDED: '',      // rewarded: +40 coin (5 a day), undo a decision, sponsor money
-    IOS_INTERSTITIAL: '',  // interstitial: before every 3rd match (none for Director Club)
+    IOS_APP_ID: 'ca-app-pub-9939733946730095~1768089142',        // ca-app-pub-XXXXXXXXXXXXXXXX~XXXXXXXXXX
+    IOS_REWARDED: 'ca-app-pub-9939733946730095/2730971979',      // rewarded: +40 coin (5 a day), undo a decision, sponsor money
+    IOS_INTERSTITIAL: 'ca-app-pub-9939733946730095/1417890305',  // interstitial: before every 3rd match (none for Director Club)
     IOS_BANNER: '',
     ANDROID_REWARDED: '',
     ANDROID_INTERSTITIAL: '',
