@@ -44,7 +44,9 @@ jobs:
       - name: Install and prepare iOS
         run: |
           npm ci
+          python3 tools/build_www.py     # web game + app-only scripts (AdMob, purchases, online, privacy options)
           npx cap add ios --packagemanager CocoaPods
+          python3 tools/ios_admob.py     # Info.plist: AdMob app id, tracking text, SKAdNetwork
       - name: Configure Flix Director name and official v30 icon
         run: |
           ICON_DIR=ios/App/App/Assets.xcassets/AppIcon.appiconset

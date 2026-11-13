@@ -15,7 +15,8 @@
     "@capacitor/haptics": "^8.0.2",
     "@capacitor/ios": "^8.6.0",
     "@capacitor/status-bar": "^8.0.4",
-    "cordova-plugin-purchase": "^13.20.0"
+    "cordova-plugin-purchase": "^13.20.0",
+    "@capacitor-community/admob": "^8.2.1"
   },
   "devDependencies": {
     "@capacitor/cli": "^8.6.0"
