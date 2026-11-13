@@ -22,8 +22,12 @@ jobs:
           cache-dependency-path: app/package-lock.json
       - name: Install packages
         run: npm ci
+      - name: Build the app page (web game + app-only scripts)
+        run: python3 tools/build_www.py
       - name: Create native iOS project
-        run: npx cap add ios --packagemanager CocoaPods
+        run: |
+          npx cap add ios --packagemanager CocoaPods
+          python3 tools/ios_admob.py
       - name: Compile without signing
         run: |
           set -o pipefail
