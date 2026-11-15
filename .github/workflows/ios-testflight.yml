@@ -6,7 +6,7 @@ on:
       version:
         description: App Store version (e.g. 1.0)
         required: true
-        default: '1.0'
+        default: '1.1'
 
 permissions:
   contents: read
@@ -47,6 +47,7 @@ jobs:
           python3 tools/build_www.py     # web game + app-only scripts (AdMob, purchases, online, privacy options)
           npx cap add ios --packagemanager CocoaPods
           python3 tools/ios_admob.py     # Info.plist: AdMob app id, tracking text, SKAdNetwork
+          python3 tools/ads_audit.py     # Reklam kontrolü: gerçek/test kimlikler run özetine yazılır
       - name: Configure Flix Director name and official v30 icon
         run: |
           ICON_DIR=ios/App/App/Assets.xcassets/AppIcon.appiconset
