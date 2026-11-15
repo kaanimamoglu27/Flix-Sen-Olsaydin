@@ -37,6 +37,20 @@ for a, b in SWAPS:
     if not n: sys.exit('build_www: text not found (game changed?): %r' % a[:80])
     s = s.replace(a, b)
 
+# Offline start (Kaan 2026-11-15 "Direktör açılmıyor"): the app must not wait for the internet to open. The Google Fonts
+# stylesheet blocked the first paint and the window 'load' event (the intro waits for it), so on a slow or blocked connection
+# the app stayed on the black FLIX intro. The fonts and three.js now ship inside the app (app/native/fonts, three.min.js).
+import re as _re
+_n = len(_re.findall(r'<link rel="(?:preconnect|stylesheet)" href="https://fonts\.(?:googleapis|gstatic)\.com[^>]*>', s))
+if _n < 1: sys.exit('build_www: Google Fonts link not found (game changed?)')
+s = _re.sub(r'<link rel="preconnect" href="https://fonts\.(?:googleapis|gstatic)\.com"[^>]*>\n?', '', s)
+s = _re.sub(r'<link rel="stylesheet" href="https://fonts\.googleapis\.com[^>]*>', '<link rel="stylesheet" href="fonts/fonts.css">', s)
+_th = "const TH_URLS=['https://cdnjs"
+if _th not in s: sys.exit('build_www: TH_URLS not found')
+s = s.replace(_th, "const TH_URLS=['three.min.js','https://cdnjs")
+shutil.rmtree(www / 'fonts', ignore_errors=True); shutil.copytree(app / 'native' / 'fonts', www / 'fonts')
+shutil.copy(app / 'native' / 'three.min.js', www / 'three.min.js')
+if 'fonts.googleapis.com' in s: sys.exit('build_www: Google Fonts still referenced')
 HEAD = ['flix-net.js', 'ads-config.js', 'ads.js', 'native-bridge.js']
 END = ['director-native.js', 'flix-privacy.js']
 for f in HEAD + END: shutil.copy(app / 'native' / f, www / f)
