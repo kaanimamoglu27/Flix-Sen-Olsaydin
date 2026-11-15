@@ -20,6 +20,8 @@ for a in apps['data']:
         at = x['attributes']; rel = x.get('relationships', {}).get('preReleaseVersion', {}).get('data') or {}
         rows.append('%s (%s) %s%s %s' % (pv.get(rel.get('id'), '?'), at['version'], at['processingState'], ' EXPIRED' if at.get('expired') else '', at['uploadedDate'][:16]))
     note('Build %s' % name, '%s: %s' % (bid, ' ; '.join(rows) or json.dumps(b)[:300]))
+    ip = get('/v1/apps/%s/inAppPurchasesV2?limit=200&fields[inAppPurchases]=productId,state,inAppPurchaseType' % aid)
+    note('IAP %s' % name, ' ; '.join('%s=%s' % (x['attributes']['productId'], x['attributes']['state']) for x in ip.get('data', [])) or json.dumps(ip)[:300])
     for kind in ('betaFeedbackCrashSubmissions', 'betaFeedbackScreenshotSubmissions'):
         f = get('/v1/apps/%s/%s?limit=8' % (aid, kind))
         if 'error' in f: note('%s %s' % (kind, name), 'hata %s %s' % (f['error'], f['body'][:150])); continue
