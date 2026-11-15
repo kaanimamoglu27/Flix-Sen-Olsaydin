@@ -26,6 +26,11 @@ SWAPS = [
     ("<small>Demo: gerçek ödeme alınmaz. App Store sürümünde Apple ile ödenir.</small>", "<small></small>"),
     ("<div class=\"note\" style=\"text-align:center\">Demo: gerçek ödeme alınmaz. İstediğin zaman iptal edebilirsin.</div>", ""),
     (" Bu sürüm demo, ödeme alınmaz.", ""),
+    # App Store: in the app the Club is a one-time coin unlock and the Starter pack has no Club days (director-native.js),
+    # so no monthly / yearly wording and no "7 gün Kulüp" promise that the app does not deliver
+    ("${ENT.club?'Aktif':PRICE.clubM+' / ay · '+PRICE.clubY+' / yıl'}", "${ENT.club?'Aktif':PRICE.clubM+' · tek seferlik'}"),
+    ("<span>1 efsane paket + 3 kıyafet + 7 gün Kulüp</span>", "<span>1 efsane paket + 3 kıyafet</span>"),
+    ("'Avrupa geceleri paketi, Atkı, Kasket ve Kulaklık, 7 gün Direktör Kulübü.'", "'Avrupa geceleri paketi, Atkı, Kasket ve Kulaklık.'"),
 ]
 for a, b in SWAPS:
     n = s.count(a)

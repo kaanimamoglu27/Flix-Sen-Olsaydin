@@ -4155,8 +4155,8 @@ function shopScreen(){
     <div class="sec"><span class="lbl">Diğer ligler</span><span class="note">yakında</span></div>
     ${[['l1','1. Lig'],['pl','Premier Lig'],['ll','La Liga'],['allL','Bütün ligler paketi']].map(([k,n])=>`<button class="card trf" data-lg="${k}"><div><b>${n}</b><span>Yakında</span></div><i>${coinTxt(CPRICE[k])}<br><small>${TPRICE[k]}</small></i></button>`).join('')}
     <div class="sec"><span class="lbl">Üyelik</span></div>
-    <button class="card clubc" id="shClub"><span class="lbl">Direktör Kulübü</span><b class="disp">${ENT.club?'Üyesin':'Hepsini aç'}</b><small>Bütün efsane maçlar, hikayenin tamamı, her hafta yeni maçlar, bütün kıyafetler</small><em>${ENT.club?'Aktif':PRICE.clubM+' / ay · '+PRICE.clubY+' / yıl'}</em></button>
-    ${ENT.start?'':`<button class="card trf" id="shStart"><div><b>Başlangıç paketi</b><span>1 efsane paket + 3 kıyafet + 7 gün Kulüp</span></div><i>${PRICE.start}</i></button>`}
+    <button class="card clubc" id="shClub"><span class="lbl">Direktör Kulübü</span><b class="disp">${ENT.club?'Üyesin':'Hepsini aç'}</b><small>Bütün efsane maçlar, hikayenin tamamı, her hafta yeni maçlar, bütün kıyafetler</small><em>${ENT.club?'Aktif':PRICE.clubM+' · tek seferlik'}</em></button>
+    ${ENT.start?'':`<button class="card trf" id="shStart"><div><b>Başlangıç paketi</b><span>1 efsane paket + 3 kıyafet</span></div><i>${PRICE.start}</i></button>`}
     <div class="sec"><span class="lbl">Efsane maç paketleri</span></div>
     ${Object.entries(PACKS).map(([k,P])=>`<button class="card trf" data-pack="${k}"><div><b>${esc(P.n)}</b><span>${esc(P.d)} · ${P.ids.length} maç</span></div><i>${ENT.packs[k]||ENT.club?'Sende':PRICE.pack}</i></button>`).join('')}
     <div class="sec"><span class="lbl">Hoca kıyafetleri</span></div>
@@ -4168,7 +4168,7 @@ function shopScreen(){
   $('#shCoin').onclick=()=>coinShop(); $('#shArch').onclick=()=>{ if(!ENT.arch&&!ENT.club)archUnlock(shopScreen); };
   B.querySelectorAll('[data-se]').forEach(b=>b.onclick=()=>{ if(!ownSeason(b.dataset.se))seasonUnlock(b.dataset.se,shopScreen); });
   B.querySelectorAll('[data-lg]').forEach(b=>b.onclick=()=>leagueSheet(b.dataset.lg==='allL'?'pl':b.dataset.lg));
-  const st=$('#shStart'); if(st)st.onclick=()=>buySheet('Başlangıç paketi',PRICE.start,'Avrupa geceleri paketi, Atkı, Kasket ve Kulaklık, 7 gün Direktör Kulübü.',()=>{ ENT.start=true; ENT.packs.avrupa=true; ['acc:1','acc:2','acc:3'].forEach(k=>ENT.items[k]=true); shopScreen(); });
+  const st=$('#shStart'); if(st)st.onclick=()=>buySheet('Başlangıç paketi',PRICE.start,'Avrupa geceleri paketi, Atkı, Kasket ve Kulaklık.',()=>{ ENT.start=true; ENT.packs.avrupa=true; ['acc:1','acc:2','acc:3'].forEach(k=>ENT.items[k]=true); shopScreen(); });
   B.querySelectorAll('[data-pack]').forEach(b=>b.onclick=()=>{ const k=b.dataset.pack; if(ENT.packs[k]||ENT.club)return; buySheet(PACKS[k].n,PRICE.pack,PACKS[k].d+'.',()=>{ ENT.packs[k]=true; shopScreen(); }); });
   B.querySelectorAll('.sitem').forEach(b=>b.onclick=()=>{ const k=b.dataset.k,v=+b.dataset.v;
     const wear=()=>{ COACH={...COACH,[k]:v}; store.set('fdCoach',COACH); toast('Giyildi'); shopScreen(); };

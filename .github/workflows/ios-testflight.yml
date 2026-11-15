@@ -100,6 +100,7 @@ jobs:
               c.build_settings["PROVISIONING_PROFILE_SPECIFIER"] = ENV.fetch("PROFILE_UUID")
               c.build_settings["MARKETING_VERSION"] = ENV.fetch("APP_VERSION")
               c.build_settings["CURRENT_PROJECT_VERSION"] = ENV.fetch("BUILD_NUMBER")
+              c.build_settings["TARGETED_DEVICE_FAMILY"] = "1"   # iPhone only (FLIX Kick Up was rejected for its iPad layout)
             end
             p.save
           '
