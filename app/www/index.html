@@ -4175,7 +4175,7 @@ function packSheetOld(key,onDone){
   const P=PACKS[key], sh=document.createElement('div'); sh.className='sheet';
   sh.innerHTML=`<div class="in"><h3 class="disp">Kilitli maç</h3><div class="note">Bu maç <b>${esc(P.n)}</b> paketinde. ${esc(P.d)}.</div>
     <button class="card plan wide" data-k="pack"><b>${esc(P.n)}</b><em>${PRICE.pack}</em><small>tek seferlik, ${P.ids.length} maç</small></button>
-    <button class="card plan wide best" data-k="club"><b>Direktör Kulübü</b><em>${PRICE.clubM}</em><small>bütün maçlar, her ay</small></button>
+    <button class="card plan wide best" data-k="club"><b>Direktör Kulübü</b><em>${PRICE.clubM}</em><small>bütün maçlar, tek seferlik</small></button>
     <div class="foot"><span></span><button class="btn ghost" data-x>Şimdi değil</button></div></div>`;
   sh.onclick=e=>{ if(e.target===sh||e.target.closest('[data-x]'))sh.remove(); };
   sh.querySelector('[data-k="pack"]').onclick=()=>{ sh.remove(); buySheet(P.n,PRICE.pack,P.d+'.',()=>{ ENT.packs[key]=true; onDone&&onDone(); }); };
