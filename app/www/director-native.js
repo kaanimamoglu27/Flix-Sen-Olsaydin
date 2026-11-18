@@ -30,11 +30,16 @@
     PRICE.clubM = asCoin(CLUB_COINS); PRICE.clubY = asCoin(CLUB_COINS);
     [ACC_PRICE, OUTFIT_PRICE].forEach(function (arr) { for (var i = 0; i < arr.length; i++) { var c = typeof arr[i] === 'string' && coinsFor(arr[i]); if (c) arr[i] = asCoin(c); } });
   } catch (e) { console.warn('director prices', e); }
-  // store prices (localized, from Apple) for the real products once the store has loaded
+  // store prices (localized, from Apple) for the real products once the store has loaded. Until then "…", never the
+  // game's built-in TL prices (they are web demo labels and would be wrong in other countries / after a price change).
+  COINPK.forEach(function (p) { p[1] = '…'; }); PRICE.start = '…';
   function syncStorePrices() {
     var N = window.FlixNative; if (!N || !N.price) return;
     COIN_IDS.forEach(function (id, i) { var p = N.price(id); if (p && COINPK[i]) COINPK[i][1] = p; });
     var s = N.price(STARTER_ID); if (s) PRICE.start = s;
+    // refresh what is on screen: the open Flix Coin sheet and the shop
+    document.querySelectorAll('.cpack[data-i]').forEach(function (b) { var e = b.querySelector('em'), pk = COINPK[+b.dataset.i]; if (e && pk) e.textContent = pk[1]; });
+    var sh = $('#shop'); if (sh && !sh.hidden) shopScreen();
   }
   window.addEventListener('flixprices', syncStorePrices);
 
@@ -50,6 +55,36 @@
       if (!$('#shop').hidden) shopScreen();
     }
   };
+
+  // ---------- Restore purchases (App Store rule: the non-consumable Starter pack must be restorable) ----------
+  // In the shop and on the home screen next to "Yasal Bilgiler" (the app has no separate settings screen).
+  var restoring = false;
+  function restorePurchases() {
+    var N = window.FlixNative;
+    if (!N || !N.restore) { toast('App Store şu an açılamadı'); return; }
+    if (restoring) return; restoring = true; toast('Satın alımlar kontrol ediliyor…');
+    N.restore().then(function (ids) {
+      ids = ids || []; ids.forEach(function (id) { window.__dirGrant(id, null); });
+      toast(ids.length ? 'Satın alımların geri yüklendi' : 'Geri yüklenecek satın alım bulunamadı');
+      var sh = $('#shop'); if (sh && !sh.hidden) shopScreen();
+    }, function () { toast('App Store\'a ulaşılamadı, biraz sonra tekrar dene'); }).then(function () { restoring = false; });
+  }
+  var gameShop = window.shopScreen;
+  if (typeof gameShop === 'function') window.shopScreen = function () {
+    var r = gameShop.apply(this, arguments);
+    var B = $('#shopBody');
+    if (B && !B.querySelector('[data-restore]')) {
+      var b = document.createElement('button'); b.className = 'btn ghost wide'; b.setAttribute('data-restore', '1');
+      b.style.marginTop = '10px'; b.textContent = 'Satın alımları geri yükle'; b.onclick = restorePurchases;
+      B.appendChild(b);
+    }
+    return r;
+  };
+  document.querySelectorAll('.hlegal').forEach(function (row) {
+    var i = document.createElement('i'); i.textContent = '·';
+    var b = document.createElement('button'); b.textContent = 'Satın alımları geri yükle'; b.onclick = restorePurchases;
+    row.style.flexWrap = 'wrap'; row.appendChild(i); row.appendChild(b);
+  });
 
   function iap(id) {
     var N = window.FlixNative;
