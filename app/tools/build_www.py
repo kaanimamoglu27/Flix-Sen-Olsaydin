@@ -30,6 +30,8 @@ SWAPS = [
     # so no monthly / yearly wording and no "7 gün Kulüp" promise that the app does not deliver
     ("${ENT.club?'Aktif':PRICE.clubM+' / ay · '+PRICE.clubY+' / yıl'}", "${ENT.club?'Aktif':PRICE.clubM+' · tek seferlik'}"),
     ("<span>1 efsane paket + 3 kıyafet + 7 gün Kulüp</span>", "<span>1 efsane paket + 3 kıyafet</span>"),
+    # unlock sheet: the Club button promised "her ay 1.000 coin"; the app's Club is a one-time coin unlock with no monthly coins
+    ("<small>her şey açık, her ay 1.000 coin</small>", "<small>tek seferlik, her şey açık</small>"),
     ("'Avrupa geceleri paketi, Atkı, Kasket ve Kulaklık, 7 gün Direktör Kulübü.'", "'Avrupa geceleri paketi, Atkı, Kasket ve Kulaklık.'"),
 ]
 for a, b in SWAPS:

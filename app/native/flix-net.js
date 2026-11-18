@@ -1,4 +1,5 @@
 /* FLIX online client: provides window.claude.use('db' | 'user' | 'room') on top of the FLIX online server,
+   Lazy: nothing connects at app launch; the first claude.use('db' | 'room') (Online screen, real-match crowd stats) opens the socket.
    so the same online code runs inside the iOS app (where the claude.ai artifact services do not exist).
    If window.claude.use already exists (game opened from its claude.ai link) nothing is changed.
    Server: flix-kick-up/server/src/net.js (Render service flix-kick-up-online, path /net). Shared by Flix Direktör (db, user) and FLIX Bomb (room). */
@@ -50,7 +51,10 @@
     });
     return opening;
   }
-  function retry() { setTimeout(function () { if (!open) connect(); }, backoff); backoff = Math.min(backoff * 2, 15000); }
+  // reconnect on its own only while something is listening (a duel / live room / queued message). Otherwise the next
+  // call() connects again, so an offline app does not keep dialing the server in the background.
+  function busy() { for (var k in docSubs) return true; for (var r in roomState) return true; return queue.length > 0; }
+  function retry() { if (!busy()) return; setTimeout(function () { if (!open && busy()) connect(); }, backoff); backoff = Math.min(backoff * 2, 15000); }
   function raw(m) { if (open && ws && ws.readyState === 1) ws.send(JSON.stringify(m)); else queue.push(m); }
   function call(op, args) {
     return connect().then(function () {

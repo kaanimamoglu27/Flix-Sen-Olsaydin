@@ -887,6 +887,38 @@ b,h1,h2,h3,.big,.sqr b,.osh b{font-style:normal!important;}
 .hmini button{display:flex;align-items:center;justify-content:center;gap:5px;padding:9px 4px;border-radius:10px;background:var(--paper);font-size:12px;font-weight:700;color:#dfe3ff;white-space:nowrap;}
 .hmini .ldot{width:7px;height:7px;}
 #home .hero h1{font-size:clamp(50px,15vw,80px);text-shadow:none;} #home .hero h1 small{text-shadow:none;}
+/* v1.3.1: küçük ekranlarda (iPhone SE, iPad uyumluluk modu) ana ekranın altı da erişilebilir: ekran kayar, saha çizgisi kaydırmaya katılmaz,
+   kısa ekranlarda üst kısım sıkışır ki ana butonlar kaydırmadan görünsün */
+#home{overflow-x:hidden;overflow-y:auto;overscroll-behavior-y:contain;-webkit-overflow-scrolling:touch;}
+#home .hpitch{position:fixed;}
+#home .hbot{flex:none;}
+@media (max-height:740px){
+  #home{gap:8px;padding-block:8px 8px;}
+  #home .home-top img{width:62px;}
+  #home .hpills{margin-top:-12px;}
+  #home .kick{font-size:16px;margin-bottom:4px;}
+  #home .hero h1{font-size:clamp(42px,12.5vw,60px);}
+  #home .hero p{margin-top:6px;font-size:13.5px;line-height:1.35;}
+  #home .hbot{gap:8px;}
+  #home .hticket{padding:5px 10px 7px;}
+  #home .hticket .tl{padding-bottom:3px;margin-bottom:2px;}
+  #home .hticket .tk svg{width:28px;height:28px;}
+  #home .hticket b{font-size:18px;}
+  #home .hticket small{font-size:11.5px;margin-top:2px;}
+  #home .hgo{min-height:52px;font-size:25px;}
+  #home .hrow2 .mode{padding:9px 12px;}
+  #app #home .hlegal{margin-top:0;gap:0 4px;}
+  #app #home .hlegal button{padding:4px 6px;}
+}
+@media (max-height:600px){
+  #home .home-top img{width:52px;}
+  #home .kick{display:none;}
+  #home .hero h1{font-size:clamp(36px,11vw,46px);}
+  #home .hero p{display:none;}
+  #home .hticket small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  #home .hgo{min-height:46px;font-size:22px;}
+  #home .hrow2 .mode{padding:7px 10px;} #home .hrow2 .mode b{font-size:19px;} #home .hrow2 .mode span{font-size:11.5px;line-height:1.25;}
+}
 .howsh{background:rgba(5,9,30,.88);justify-content:center;}
 .howsh .in{border-radius:18px;margin:0 14px;border-top:0;max-height:94%;gap:10px;}
 .howtop{display:flex;justify-content:space-between;align-items:center;}
@@ -925,10 +957,13 @@ svg.mgr .mh{fill:var(--yellow);} svg.mgr .ma{fill:#7d93ff;} svg.mgr .mg{font-siz
 #match .tacbar,#match .hint,#match .feed,#match.dec .sitrow,#match .sitrow{display:none!important;}
 #match .pitch{max-height:46vh;}
 #match.dec .pitch{max-height:24vh;min-height:110px;}
-#match.dec .hand{grid-template-columns:repeat(3,1fr);gap:6px;padding:2px 0 4px;overflow:hidden;}
+#match.dec .hand{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:2px 0 4px;overflow:hidden;}
+#match.dec .hand>*{min-width:0;}
 #match.dec .hand .dech{grid-column:1/-1;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;padding:0 2px;}
 .dech b{font-family:var(--display);font-size:20px;color:var(--yellow);text-transform:uppercase;} .dech span{font-size:14px;font-weight:700;} .dech small{font-size:11px;opacity:.7;margin-left:auto;}
-#match.dec .pcard{min-height:0;padding:8px 7px;gap:3px;}
+#match.dec .pcard{min-height:0;min-width:0;padding:8px 7px;gap:3px;}
+#match.dec .pcard .od{grid-template-columns:minmax(0,1fr) auto;} #match.dec .pcard .od span{min-width:0;overflow-wrap:anywhere;}
+@media (max-width:360px){ #match.dec .pcard .od{gap:0 3px;font-size:10px;} #match.dec .pcard .od b{font-size:11.5px;} #match.dec .pcard .od em{font-size:9px;margin-left:1px;padding:0 2px;} }
 #match.dec .pcard .kind{font-size:9.5px;} #match.dec .pcard .big{font-size:18px;line-height:1;}
 #match.dec .pcard .txt{display:none;}
 #match.dec .pcard .prow{gap:4px;} #match.dec .pcard .prow svg{display:none;} #match.dec .pcard .prow .pn{font-size:11.5px;} #match.dec .pcard .prow .pn small{display:none;} #match.dec .pcard .prow .arr{font-size:10px;}
@@ -964,7 +999,7 @@ svg.mgr .mh{fill:var(--yellow);} svg.mgr .ma{fill:#7d93ff;} svg.mgr .mg{font-siz
     <svg class="hpitch" viewBox="0 0 200 300" aria-hidden="true"><rect x="8" y="8" width="184" height="284" rx="2"/><line x1="8" y1="150" x2="192" y2="150"/><circle cx="100" cy="150" r="30"/><circle cx="100" cy="150" r="2.5" class="f"/><rect x="50" y="8" width="100" height="44"/><rect x="76" y="8" width="48" height="16"/><rect x="50" y="248" width="100" height="44"/><rect x="76" y="276" width="48" height="16"/></svg>
     <div class="home-top"><img id="logo" alt="Flix"><button class="badge cchip" id="hCoach"><span class="cf" id="hFace"></span><span class="ct"><b id="hName">Hoca</b><small><em id="hStreak">0</em> galibiyet serisi</small></span></button></div>
     <div class="hpills"><button class="pill" id="hCoin"><span class="ccount"></span><i class="plus">+</i></button><button class="pill" id="hTro">🏆 <b class="tcount"></b></button></div>
-    <div class="hero"><div class="kick">Hocanın yerinde sen ol</div><h1 class="disp"><small>Flix</small>Sen Olsaydın</h1>
+    <div class="hero"><div class="kick">Hocanın yerinde sen ol</div><h1 class="disp"><small lang="en">Flix</small>Sen Olsaydın</h1>
       <p>Gerçek maçlarda hocanın yerine geç. Kararını ver, gerçekte ne olduğunu gör.</p></div>
     <div class="hbot">
       <button class="hticket" id="hTicket"></button>
@@ -974,7 +1009,7 @@ svg.mgr .mh{fill:var(--yellow);} svg.mgr .ma{fill:#7d93ff;} svg.mgr .mg{font-siz
         <button class="card mode" id="mQuick"><b>Gerçek maçlar</b><span>Bu hafta ve efsane maçlar</span></button>
       </div>
       <div class="hmini">
-        <button id="mLive"><span class="ldot"></span>Bülten</button><button id="mOnline">Online</button><button id="mShop">Mağaza</button><button id="mHow">Nasıl oynanır?</button>
+        <button id="mLive"><span class="ldot"></span>Bülten</button><button id="mOnline" lang="en">Online</button><button id="mShop">Mağaza</button><button id="mHow">Nasıl oynanır?</button>
       </div>
       <div class="hlegal"><button data-flixlegal="legal">Yasal Bilgiler</button><i>·</i><button data-flixlegal="about">Hakkında</button></div>
     </div>
@@ -1041,7 +1076,7 @@ svg.mgr .mh{fill:var(--yellow);} svg.mgr .ma{fill:#7d93ff;} svg.mgr .mg{font-siz
   </section>
 
   <section class="screen" id="online" hidden>
-    <div class="top"><button class="back" data-go="home">‹ Geri</button><h2 class="disp">Online</h2></div>
+    <div class="top"><button class="back" data-go="home">‹ Geri</button><h2 class="disp" lang="en">Online</h2></div>
     <div class="scroll" id="onBody"></div>
   </section>
 </div>
@@ -1876,8 +1911,16 @@ function seasonEnd(tb,pos){
    <div class="last">${NOTR?'':'Bütçe '+money(ST.budget)}${(()=>{const T=scorerTable(), m=T.find(x=>x.c===ST.team); return (T[0]?`${NOTR?'':' · '}Gol kralı ${esc(T[0].p.short)} (${T[0].n})`:'')+(m?` · Takımın golcüsü ${esc(m.p.short)} (${m.n})`:'');})()}</div>`;
   $('#hubPlay').textContent='Yeni sezon'; $('#hubSim').hidden=true;
 }
+function newSeasonAsk(){
+  const sh=document.createElement('div'); sh.className='sheet';
+  sh.innerHTML=`<div class="in"><h3 class="disp">Yeni sezon</h3><div class="note">Bu kariyer kaydı (${esc(cname(ST.team))}, ${esc(SEASONS[ST.season].label)}) silinir ve yeni bir sezon seçersin. Coinlerin, kupaların ve satın aldıkların sende kalır.</div>
+    <div class="foot"><button class="btn ghost" data-x>Vazgeç</button><button class="btn" data-ok>Yeni sezona başla</button></div></div>`;
+  sh.onclick=e=>{ if(e.target===sh||e.target.closest('[data-x]'))sh.remove(); };
+  sh.querySelector('[data-ok]').onclick=()=>{ beep(520); sh.remove(); store.set('fdS'+CSLOT,null); pickScreen('story'); };
+  $('#app').appendChild(sh);
+}
 const storyLock=()=>{ if(ST.week>=18&&!ENT.club&&!ST.done){ clubSheet(hub); toast('Sezonun ikinci yarısı Kulüpte'); return true; } return false; };
-$('#hubPlay').onclick=()=>{beep(520); if(ST.week>=fixtures(ST.season).length){store.set('fdS'+CSLOT,null);pickScreen('story');return;} if(storyLock())return; const E=euroPending(); if(NOTR||(!E&&!fixtures(ST.season)[ST.week].some(([h,a])=>h===ST.team||a===ST.team)))return playWeek(false); lineupSheet(E,()=>playWeek(false));};
+$('#hubPlay').onclick=()=>{beep(520); if(ST.week>=fixtures(ST.season).length){newSeasonAsk();return;} if(storyLock())return; const E=euroPending(); if(NOTR||(!E&&!fixtures(ST.season)[ST.week].some(([h,a])=>h===ST.team||a===ST.team)))return playWeek(false); lineupSheet(E,()=>playWeek(false));};
 $('#hubSim').onclick=()=>{beep(400); if(storyLock())return; playWeek(true);};
 $('#hubTr').onclick=()=>{beep(520);marketSheet();};
 $('#fullTbl').onclick=()=>{const tb=table(),sh=document.createElement('div');sh.className='sheet';
@@ -2013,7 +2056,7 @@ function scorerTable(){
   return Object.entries(g).sort((a,b)=>b[1]-a[1]).map(([id,n])=>({id,n,p:getP(id),c:clubOf(id)}));
 }
 function sheetOpen(title,html,after){ const sh=document.createElement('div'); sh.className='sheet';
-  sh.innerHTML=`<div class="in"><h3 class="disp">${title}</h3>${html}<div class="foot"><span></span><button class="btn ghost" data-x>Kapat</button></div></div>`;
+  sh.innerHTML=`<div class="in"><h3 class="disp">${String(title).replace(/^Flix Coin$/,'<span lang="en">Flix Coin</span>')}</h3>${html}<div class="foot"><span></span><button class="btn ghost" data-x>Kapat</button></div></div>`;
   sh.onclick=e=>{if(e.target===sh||e.target.closest('[data-x]'))sh.remove();}; $('#app').appendChild(sh); if(after)after(sh); return sh; }
 function scorersSheet(){
   const T=scorerTable(), mine=T.filter(x=>x.c===ST.team);
@@ -2691,7 +2734,7 @@ const LEAGUE_PRICE={l1:'l1',pl:'pl',ll:'ll'};
 function unlockSheet({title,desc,coin,tl,onDone,club=true,extra=''}){
   const sh=document.createElement('div'); sh.className='sheet';
   sh.innerHTML=`<div class="in"><span class="lbl" style="color:var(--yellow)">🔒 Kilitli</span><h3 class="disp">${esc(title)}</h3><div class="note">${esc(desc)}</div>
-    <div class="ulk"><button class="card plan" data-c><b>Flix Coin</b><em>${coinTxt(coin)}</em><small>Sende ${coins().toLocaleString('tr-TR')}</small></button><button class="card plan" data-t><b>Satın al</b><em>${esc(tl)}</em><small>tek seferlik</small></button></div>
+    <div class="ulk"><button class="card plan" data-c><b lang="en">Flix Coin</b><em>${coinTxt(coin)}</em><small>Sende ${coins().toLocaleString('tr-TR')}</small></button><button class="card plan" data-t><b>Satın al</b><em>${esc(tl)}</em><small>tek seferlik</small></button></div>
     ${extra}${club&&!ENT.club?`<button class="card plan wide best" data-k><b>Direktör Kulübü</b><em>${PRICE.clubM}</em><small>her şey açık, her ay 1.000 coin</small></button>`:''}
     <div class="foot"><span></span><button class="btn ghost" data-x>Şimdi değil</button></div></div>`;
   sh.onclick=e=>{ if(e.target===sh||e.target.closest('[data-x]'))sh.remove(); };
@@ -2709,7 +2752,7 @@ function archUnlock(done){ unlockSheet({title:'Süper Lig arşiv paketi',desc:"2
 function leagueSheet(k){
   const L=LEAGUES.find(x=>x[0]===k), sh=document.createElement('div'); sh.className='sheet';
   sh.innerHTML=`<div class="in"><span class="lbl" style="color:var(--yellow)">Yakında</span><h3 class="disp">${esc(L[1])}</h3><div class="note">Bu lig hazırlanıyor. Açıldığında gerçek skorlar ve çakma kadrolarla oynanacak. Fiyatlar:</div>
-    <div class="lpr">${[['l1','1. Lig'],['pl','Premier Lig'],['ll','La Liga'],['allL','Bütün ligler paketi']].map(([x,n])=>`<div class="${x===k?'on':''}"><b>${n}</b><span>${coinTxt(CPRICE[x])}</span><span>${TPRICE[x]}</span></div>`).join('')}</div>
+    <div class="lpr">${[['l1','1. Lig'],['pl','<span lang="en">Premier</span> Lig'],['ll','<span lang="es">La Liga</span>'],['allL','Bütün ligler paketi']].map(([x,n])=>`<div class="${x===k?'on':''}"><b>${n}</b><span>${coinTxt(CPRICE[x])}</span><span>${TPRICE[x]}</span></div>`).join('')}</div>
     <div class="note">Direktör Kulübü üyelerine açıldığı gün ücretsiz.</div><div class="foot"><span></span><button class="btn ghost" data-x>Tamam</button></div></div>`;
   sh.onclick=e=>{ if(e.target===sh||e.target.closest('[data-x]'))sh.remove(); }; $('#app').appendChild(sh);
 }
@@ -3556,7 +3599,8 @@ function quickMatch0(season,h,a){
 
 /* ---------- online düello (paylaşımlı veri) ---------- */
 let DB=null,USER=null,ME=null;
-const capP=(async()=>{ try{ if(!window.claude||!window.claude.use)return; DB=await window.claude.use('db'); USER=await window.claude.use('user'); if(USER)ME=await USER.id(); }catch(e){} })();
+let capP=null;
+const capInit=()=>capP||(capP=(async()=>{ try{ if(!window.claude||!window.claude.use)return; DB=await window.claude.use('db'); USER=await window.claude.use('user'); if(USER)ME=await USER.id(); }catch(e){} if(!DB||!ME)capP=null; })());
 const CODECH='ABCDEFGHJKLMNPRSTUVWXYZ';
 const newCode=()=>Array.from({length:4},()=>CODECH[Math.floor(Math.random()*CODECH.length)]).join('');
 const myDuels=()=>store.get('fdDuels',[]);
@@ -3569,7 +3613,7 @@ async function online(){
   const hs=`<button class="card omode hs" id="onHot"><b>📱 Aynı telefonda</b><small>İnternet gerekmez. Önce 1. oyuncu takımını yönetir, sonra telefonu arkadaşına verir; o da senin kararlarına karşı oynar. Resmi skor ikinci maçta çıkar.</small></button>`;
   const wireHs=()=>{ const b=$('#onHot'); if(b)b.onclick=()=>{ beep(520); hotSeat(); }; };
   B.innerHTML=hs+'<div class="note">Online bağlanıyor…</div>'; wireHs();
-  await Promise.race([capP,new Promise(r=>setTimeout(r,10500))]);
+  await Promise.race([capInit(),new Promise(r=>setTimeout(r,10500))]);
   if(!DB||!ME){ B.innerHTML=hs+`<div class="panel note">Online düello, oyun Claude uygulamasındaki artifact linkinden açılınca çalışır. Arkadaşının da oynayabilmesi için linki ona <b>katılımcı</b> olarak paylaşman gerekir. Şu an bağlantı kurulamadı. Aynı telefonda modu her yerde çalışır.</div>`; wireHs(); return; }
   B.innerHTML=hs+`<button class="card omode" id="onLive"><b>Canlı derbi</b><small>İkiniz de kendi takımınızı seçersiniz ve aynı anda oynarsınız. Karar anlarında ikiniz de gizlice seçersiniz, kartlar aynı anda açılır.</small></button>
    <button class="card omode" id="onRace"><b>Gerçek maç yarışı</b><small>Aynı tarihi maçı ikiniz de yönetirsiniz. Kim gerçek hocadan daha iyi karar verdi, maç sonunda görürsünüz.</small></button>
@@ -3860,7 +3904,7 @@ function mcLine(M,you,now,ours,theirs,n=200){
 }
 let REALSTATS={};
 async function loadPlays(key){
-  try{ if(!DB)return []; const q=await DB.collection('plays').where('sc','==',key).limit(500).get(); return q.docs.map(x=>x.data()); }catch(e){ return []; }
+  try{ await capInit(); if(!DB)return []; const q=await DB.collection('plays').where('sc','==',key).limit(500).get(); return q.docs.map(x=>x.data()); }catch(e){ return []; }
 }
 function playReal(sc,you){ interAdG(()=>playReal0(sc,you)); }
 function playReal0(sc,you){
@@ -3873,14 +3917,17 @@ function playReal0(sc,you){
 function coachCardHTML(acts,S,tag){
   if(!acts.length)return `<div class="kind">Bekle${tag?`<i>${tag}</i>`:''}</div><div class="big">Devam</div><div class="txt">Değişiklik yapmadı.</div>`;
   return `<div class="kind">${acts.length>1?acts.length+' değişiklik':'Değişiklik'}${tag?`<i>${tag}</i>`:''}</div>`+acts.filter(a=>a.k==='sub').map(a=>{const o=S.P[a.o],i=S.P[a.i];
-    return `<div class="prow"><span class="arr dn">▼</span>${kit(S.c,o.num)}<div class="pn">${esc(o.short)}<small>${flag(o)} ${o.pos}</small></div></div><div class="prow"><span class="arr up">▲</span>${kit(S.c,i.num)}<div class="pn">${esc(i.short)}<small>${flag(i)} ${i.pos} · ${a.m}'</small></div></div>`;}).join('');
+    return `<div class="prow"><span class="arr dn">▼</span>${kit(S.c,o.num)}<div class="pn">${esc(o.short)}<small>${flag(o)} ${o.pos}</small></div></div><div class="prow"><span class="arr up">▲</span>${kit(S.c,i.num)}<div class="pn">${esc(i.short)}<small>${flag(i)} ${i.pos} · ${a.m}'</small></div></div>`;}).join('')
+    +acts.filter(a=>a.k!=='sub').map(a=>`<div class="txt"><b>${esc(actText(S,a))}</b></div>`).join('');
 }
 function userCardHTML(acts,S,utac){
   const sub=acts.find(a=>a.k==='sub'),tac=acts.find(a=>a.k==='tac');
   let h=`<div class="kind">Senin kararın</div>`;
   if(sub){const o=S.P[sub.o],i=S.P[sub.i]; h+=`<div class="prow"><span class="arr dn">▼</span>${kit(S.c,o.num)}<div class="pn">${esc(o.short)}<small>${flag(o)} ${o.pos}</small></div></div><div class="prow"><span class="arr up">▲</span>${kit(S.c,i.num)}<div class="pn">${esc(i.short)}<small>${flag(i)} ${i.pos}</small></div></div>`;}
   if(tac)h+=`<div class="txt"><b>${TAC[tac.v].n}</b> oyun</div>`;
-  if(!sub&&!tac)h+=`<div class="big">Devam</div><div class="txt">Değişiklik yok.</div>`;
+  const oth=acts.filter(a=>a.k==='form'||a.k==='pres'||a.k==='plan');
+  oth.forEach(a=>{ h+=a.k==='form'&&FORMS[a.v]?`<div class="txt"><b>${esc(FORMS[a.v].n)}</b> diziliş</div>`:`<div class="txt"><b>${esc(actText(S,a))}</b></div>`; });
+  if(!sub&&!tac&&!oth.length)h+=`<div class="big">Devam</div><div class="txt">Değişiklik yok.</div>`;
   return h;
 }
 /* karar sonrası: sen, hoca ve diğer oyuncular yan yana */
@@ -4148,12 +4195,12 @@ function shopScreen(){
   show('shop'); const B=$('#shopBody');
   const it=(k,v,n)=>{ const own=ownsItem(k,v), pr=itemPrice(k,v);
     return `<button class="card sitem ${own?'own':''}" data-k="${k}" data-v="${v}"><span class="sf">${coachSVG({...COACH,[k]:v},'happy')}</span><b>${n}</b><small>${own?'Sende':pr==='flix'?'Flix kodu ile':pr}</small></button>`; };
-  B.innerHTML=`<div class="cbal"><span class="ccount">${coinTxt(coins())}</span><button class="btn" id="shCoin">Coin al</button></div>
+  B.innerHTML=`<div class="cbal"><span class="ccount">${coinTxt(coins())}</span><button class="btn" id="shCoin"><span lang="en">Coin</span> al</button></div>
     <div class="sec"><span class="lbl">Süper Lig sezonları</span><span class="note">2025-26 ve 2023-24 açık</span></div>
     <button class="card trf" id="shArch"><div><b>Arşiv paketi</b><span>2010'dan bugüne ${SEASON_KEYS.filter(x=>!FREE_SEASONS.includes(x)).length} sezon</span></div><i>${ENT.arch||ENT.club?'Sende':`${coinTxt(CPRICE.arch)}<br><small>${TPRICE.arch}</small>`}</i></button>
     <div class="sgrid sea">${SEASON_KEYS.filter(k=>!FREE_SEASONS.includes(k)).map(k=>`<button class="card sseas ${ownSeason(k)?'own':''}" data-se="${k}"><b>${SEASONS[k].label}</b><small>${ownSeason(k)?'Sende':coinTxt(CPRICE.season)}</small></button>`).join('')}</div>
     <div class="sec"><span class="lbl">Diğer ligler</span><span class="note">yakında</span></div>
-    ${[['l1','1. Lig'],['pl','Premier Lig'],['ll','La Liga'],['allL','Bütün ligler paketi']].map(([k,n])=>`<button class="card trf" data-lg="${k}"><div><b>${n}</b><span>Yakında</span></div><i>${coinTxt(CPRICE[k])}<br><small>${TPRICE[k]}</small></i></button>`).join('')}
+    ${[['l1','1. Lig'],['pl','<span lang="en">Premier</span> Lig'],['ll','<span lang="es">La Liga</span>'],['allL','Bütün ligler paketi']].map(([k,n])=>`<button class="card trf" data-lg="${k}"><div><b>${n}</b><span>Yakında</span></div><i>${coinTxt(CPRICE[k])}<br><small>${TPRICE[k]}</small></i></button>`).join('')}
     <div class="sec"><span class="lbl">Üyelik</span></div>
     <button class="card clubc" id="shClub"><span class="lbl">Direktör Kulübü</span><b class="disp">${ENT.club?'Üyesin':'Hepsini aç'}</b><small>Bütün efsane maçlar, hikayenin tamamı, her hafta yeni maçlar, bütün kıyafetler</small><em>${ENT.club?'Aktif':PRICE.clubM+' / ay · '+PRICE.clubY+' / yıl'}</em></button>
     ${ENT.start?'':`<button class="card trf" id="shStart"><div><b>Başlangıç paketi</b><span>1 efsane paket + 3 kıyafet + 7 gün Kulüp</span></div><i>${PRICE.start}</i></button>`}
@@ -4161,7 +4208,7 @@ function shopScreen(){
     ${Object.entries(PACKS).map(([k,P])=>`<button class="card trf" data-pack="${k}"><div><b>${esc(P.n)}</b><span>${esc(P.d)} · ${P.ids.length} maç</span></div><i>${ENT.packs[k]||ENT.club?'Sende':PRICE.pack}</i></button>`).join('')}
     <div class="sec"><span class="lbl">Hoca kıyafetleri</span></div>
     <div class="sgrid">${it('acc',1,'Atkı')}${it('acc',2,'Kasket')}${it('acc',3,'Kulaklık')}${it('outfit',3,'Smokin')}${it('acc',4,'Flix şapkası')}</div>
-    <div class="sec"><span class="lbl">Flix kodu</span><span class="note">Flix kutusundaki kod</span></div>
+    <div class="sec"><span class="lbl"><span lang="en">Flix</span> kodu</span><span class="note">Flix kutusundaki kod</span></div>
     <div class="inrow"><input id="flixCode" maxlength="12" placeholder="FLIX-0000" aria-label="Flix kodu"><button class="btn" id="flixGo">Aç</button></div>
     <div class="note">Her 3 maçta bir kısa reklam çıkar. Ödüllü reklamla Flix Coin kazanabilir, kararını geri alabilir ya da sponsordan para alabilirsin. Direktör Kulübü üyeleri reklam görmez. Bu sürüm demo, ödeme alınmaz.</div>`;
   $('#shClub').onclick=()=>{ if(!ENT.club)clubSheet(shopScreen); };

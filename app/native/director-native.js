@@ -30,6 +30,12 @@
     PRICE.clubM = asCoin(CLUB_COINS); PRICE.clubY = asCoin(CLUB_COINS);
     [ACC_PRICE, OUTFIT_PRICE].forEach(function (arr) { for (var i = 0; i < arr.length; i++) { var c = typeof arr[i] === 'string' && coinsFor(arr[i]); if (c) arr[i] = asCoin(c); } });
   } catch (e) { console.warn('director prices', e); }
+  // first launch: the "Hocanı yarat" screen was drawn before this file ran, so it still shows the web TL prices on the
+  // locked outfits / accessories. Draw it again with the coin prices (nothing has been chosen yet at this point).
+  try {
+    var cs = document.getElementById('coach');
+    if (cs && !cs.hidden && typeof coachScreen === 'function') coachScreen(($('#coachTitle') || {}).textContent === 'Hocanı yarat');
+  } catch (e) { console.warn('director coach prices', e); }
   // store prices (localized, from Apple) for the real products once the store has loaded. Until then "…", never the
   // game's built-in TL prices (they are web demo labels and would be wrong in other countries / after a price change).
   COINPK.forEach(function (p) { p[1] = '…'; }); PRICE.start = '…';
@@ -99,7 +105,7 @@
     var sh = document.createElement('div'); sh.className = 'sheet';
     sh.innerHTML = '<div class="in"><h3 class="disp">' + esc(title) + '</h3><div class="note">' + esc(desc) + '</div>' +
       '<div class="buyp"><b>' + coinTxt(cost) + '</b><small>Sende ' + fmt(coins()) + '</small></div>' +
-      '<div class="foot"><button class="btn ghost" data-x>Vazgeç</button><button class="btn" data-ok>Coin ile aç</button></div></div>';
+      '<div class="foot"><button class="btn ghost" data-x>Vazgeç</button><button class="btn" data-ok><span lang="en">Coin</span> ile aç</button></div></div>';
     sh.onclick = function (e) { if (e.target === sh || e.target.closest('[data-x]')) sh.remove(); };
     sh.querySelector('[data-ok]').onclick = function () {
       sh.remove();
