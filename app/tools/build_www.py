@@ -32,6 +32,8 @@ SWAPS = [
     ("<span>1 efsane paket + 3 kıyafet + 7 gün Kulüp</span>", "<span>1 efsane paket + 3 kıyafet</span>"),
     # unlock sheet: the Club button promised "her ay 1.000 coin"; the app's Club is a one-time coin unlock with no monthly coins
     ("<small>her şey açık, her ay 1.000 coin</small>", "<small>tek seferlik, her şey açık</small>"),
+    # packSheet (league/season packs): the Club line read like a monthly subscription; in the app it is a one-time coin unlock
+    ("<small>bütün maçlar, her ay</small>", "<small>bütün maçlar, tek seferlik</small>"),
     ("'Avrupa geceleri paketi, Atkı, Kasket ve Kulaklık, 7 gün Direktör Kulübü.'", "'Avrupa geceleri paketi, Atkı, Kasket ve Kulaklık.'"),
 ]
 for a, b in SWAPS:
